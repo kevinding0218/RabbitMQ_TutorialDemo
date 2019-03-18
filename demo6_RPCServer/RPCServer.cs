@@ -20,6 +20,9 @@ class RPCServer
             // We might want to run more than one server process.
             // In order to spread the load equally over multiple servers
             // we need to set the prefetchCount setting in channel.BasicQos.
+            // set perfetchCount: 1 means to tell RabbitMQ:
+            // DO NOT distribute message before getting message acknowledge from consumer endpoint.
+            // That means, do not distribute task if consumer in busy status
             channel.BasicQos(0, 1, false);
             var consumer = new EventingBasicConsumer(channel);
             // We use BasicConsume to access the queue.
